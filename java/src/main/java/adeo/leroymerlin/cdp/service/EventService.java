@@ -1,7 +1,10 @@
-package adeo.leroymerlin.cdp;
+package adeo.leroymerlin.cdp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import adeo.leroymerlin.cdp.pojo.Event;
+import adeo.leroymerlin.cdp.repository.EventRepository;
 
 import java.util.List;
 
