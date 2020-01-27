@@ -7,7 +7,7 @@ import adeo.leroymerlin.cdp.pojo.Event;
 
 import java.util.List;
 
-@Transactional(readOnly = true)
+@Transactional
 public interface EventRepository extends Repository<Event, Long> {
 
     void delete(Long eventId);

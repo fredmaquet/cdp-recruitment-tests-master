@@ -4,6 +4,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -40,7 +41,8 @@ public class EventControllerTest {
     
     private MockMvc mockMvc;
     private ObjectMapper mapper;
-
+    
+	private static final Long EVENT_ID = 1L;
 	
     @Before
     public void init() {
@@ -71,6 +73,20 @@ public class EventControllerTest {
         
 		// And the service has been called only once
         verify(eventService,times(1)).getEvents();
+		verifyNoMoreInteractions(eventService);
+    }
+    
+    @Test
+    public void should_deleteEvent() throws Exception {
+        // When we call the controller to delete an event
+        ResultActions result = mockMvc.perform(delete("/api/events/" + EVENT_ID)
+                .contentType(MediaType.APPLICATION_JSON));
+        
+        // Then we check the status 200
+        result.andExpect(status().isOk());      
+        
+		// And the service has been called only once
+        verify(eventService,times(1)).delete(EVENT_ID);
 		verifyNoMoreInteractions(eventService);
     }
     
