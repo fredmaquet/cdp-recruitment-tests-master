@@ -19,22 +19,22 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     public List<Event> findEvents() {
         return eventService.getEvents();
     }
 
-    @RequestMapping(value = "/search/{query}", method = RequestMethod.GET)
+    @GetMapping(value = "/search/{query}")
     public List<Event> findEvents(@PathVariable String query) {
         return eventService.getFilteredEvents(query);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public void deleteEvent(@PathVariable Long id) {
         eventService.delete(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     public void updateEvent(@PathVariable Long id, @RequestBody Event event) {
     }
 }
