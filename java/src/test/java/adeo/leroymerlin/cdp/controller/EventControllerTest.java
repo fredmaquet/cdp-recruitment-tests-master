@@ -129,4 +129,29 @@ public class EventControllerTest {
 		verifyNoMoreInteractions(eventService);
     }
     
+    @Test
+    public void should_findEvents() throws Exception {
+    	Event motocultor = new Event();
+		motocultor.setTitle("Motocultor");
+		
+		Event downloadFestival =  new Event();
+		downloadFestival.setTitle("Download Festival");
+		
+		List<Event> listFilteredEvent = Arrays.asList(motocultor,downloadFestival);
+		
+		// Given the service returns the filtered list of event
+        when(eventService.getFilteredEvents("Wa")).thenReturn(listFilteredEvent );
+
+        // When we call the controller to filter events
+        ResultActions result = mockMvc.perform(get("/api/events/search/Wa")
+                .contentType(MediaType.APPLICATION_JSON));
+        
+        // Then we check the status 200 and the returned values are the same as the service
+        result.andExpect(status().isOk()).andExpect(content().string(mapper.writeValueAsString(listFilteredEvent)));      
+        
+        // And the service has been called only once
+        verify(eventService,times(1)).getFilteredEvents("Wa");
+		verifyNoMoreInteractions(eventService);
+    }
+    
 }
