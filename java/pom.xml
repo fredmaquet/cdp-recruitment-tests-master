@@ -26,6 +26,15 @@
 		<angularjs.version>1.5.8</angularjs.version>
 		<font-awesome.version>4.6.3</font-awesome.version>
 		<angular-input-stars.version>1.6.3</angular-input-stars.version>
+		<jacoco.plugin.version>0.8.4</jacoco.plugin.version>
+
+		<sonar.scm.disabled>true</sonar.scm.disabled>
+		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+		<sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
+		<sonar.coverage.exclusions>
+			**/*Application.java,
+		</sonar.coverage.exclusions>
+		<sonar.cpd.exclusions>**/pojo/**/*</sonar.cpd.exclusions>
 	</properties>
 
 	<dependencies>
@@ -75,6 +84,45 @@
 
 
 	</dependencies>
+
+
+	<profiles>
+		<profile>
+			<id>all</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>${jacoco.plugin.version}</version>
+						<configuration>
+							<destFile>${sonar.jacoco.reportPaths}</destFile>
+							<append>true</append>
+						</configuration>
+						<executions>
+							<execution>
+								<id>agent</id>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<build>
 		<plugins>
