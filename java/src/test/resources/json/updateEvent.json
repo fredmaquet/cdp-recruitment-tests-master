@@ -1,0 +1,82 @@
+{
+  "id": 1000,
+  "title": "GrasPop Metal Meeting",
+  "imgUrl": "img/1000.jpeg",
+  "bands": [
+    {
+      "name": "Metallica",
+      "members": [
+        {
+          "name": "Queen Anika Walsh"
+        },
+        {
+          "name": "Queen Constance Carroll"
+        },
+        {
+          "name": "Queen Aliyah Jarvis"
+        },
+        {
+          "name": "Queen Katy Stone"
+        }
+      ]
+    },
+    {
+      "name": "The Ramones",
+      "members": [
+        {
+          "name": "Queen Ava Dunlap"
+        },
+        {
+          "name": "Queen Haleema Poole"
+        }
+      ]
+    },
+    {
+      "name": "Rolling Stones",
+      "members": [
+        {
+          "name": "Queen Talia Bush"
+        }
+      ]
+    },
+    {
+      "name": "Guns n roses",
+      "members": [
+        {
+          "name": "Queen Jasmine Collier"
+        },
+        {
+          "name": "Queen Daisy Burke"
+        },
+        {
+          "name": "Queen Aaliyah York"
+        }
+      ]
+    },
+    {
+      "name": "Pink Floyd",
+      "members": [
+        {
+          "name": "Queen Frankie Gross (Fania)"
+        },
+        {
+          "name": "Queen Madeleine Taylor"
+        },
+        {
+          "name": "Queen Genevieve Clark"
+        },
+        {
+          "name": "Queen Veronica Graves"
+        },
+        {
+          "name": "Queen Stacey ODoherty (Asya)"
+        },
+        {
+          "name": "Queen Gertrude Hudson"
+        }
+      ]
+    }
+  ],
+  "nbStars": 5,
+  "comment": "adding new comment on that amazing event"
+}

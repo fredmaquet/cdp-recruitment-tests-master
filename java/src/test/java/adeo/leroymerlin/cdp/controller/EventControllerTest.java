@@ -1,25 +1,30 @@
 package adeo.leroymerlin.cdp.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -30,7 +35,7 @@ import adeo.leroymerlin.cdp.pojo.Event;
 import adeo.leroymerlin.cdp.service.EventService;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
 public class EventControllerTest {
 
     @Mock
@@ -87,6 +92,40 @@ public class EventControllerTest {
         
 		// And the service has been called only once
         verify(eventService,times(1)).delete(EVENT_ID);
+		verifyNoMoreInteractions(eventService);
+    }
+    
+    @Test
+    public void should_updateEvent() throws Exception {
+    	//Given an event to update
+    	Event eventToUpdate = mapper.readValue(new File("src/test/resources/json/updateEvent.json"),Event.class);
+    	
+    	// We put an argumentCaptor in order to see what it should be passed on service
+    	ArgumentCaptor<Event> captorOfEvent = ArgumentCaptor.forClass(Event.class);
+    	
+    	Event eventFromService = new Event();
+		eventFromService.setTitle("GrasPop Metal Meeting");
+		eventFromService.setComment("adding new comment on that amazing event");
+		eventFromService.setNbStars(5);
+		
+		// Given the service returns the updated event
+        when(eventService.updateEvent(eq(EVENT_ID), captorOfEvent.capture())).thenReturn(eventFromService);
+        
+        // When we call the controller to update event
+        ResultActions result = mockMvc.perform(put("/api/events/"+ EVENT_ID)
+				.content(mapper.writeValueAsString(eventToUpdate))
+				.contentType(MediaType.APPLICATION_JSON));
+        
+        
+		// Then we check the status 200 and the returned values are the same as the service
+		result.andExpect(status().isOk()).andExpect(content().string(mapper.writeValueAsString(eventFromService)));
+
+		// And we check the event send to the service
+		Event eventSendedToService = captorOfEvent.getValue();
+		assertThat(eventSendedToService).isEqualToComparingFieldByFieldRecursively(eventToUpdate);
+
+		// And the service has been called only once
+		verify(eventService, times(1)).updateEvent(EVENT_ID, eventSendedToService);
 		verifyNoMoreInteractions(eventService);
     }
     
