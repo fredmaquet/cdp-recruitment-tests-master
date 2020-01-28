@@ -25,6 +25,17 @@ public class EventService {
     public void delete(Long id) {
         eventRepository.delete(id);
     }
+    
+	public Event updateEvent(Long id, Event event) {
+		// In order to avoid a lot of access on database
+		// by doing eventRepository.save(event) 
+		// we just update nbStars and comment because all bands are members
+		// are not supposed to be updated for the moment
+		Event eventFromRepository = eventRepository.findOne(id);
+		eventFromRepository.setNbStars(event.getNbStars());
+		eventFromRepository.setComment(event.getComment());
+		return eventRepository.save(eventFromRepository);
+	}
 
     public List<Event> getFilteredEvents(String query) {
         List<Event> events = eventRepository.findAllBy();

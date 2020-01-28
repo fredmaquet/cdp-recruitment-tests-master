@@ -1,14 +1,14 @@
 package adeo.leroymerlin.cdp.repository;
 
-import org.springframework.data.repository.Repository;
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import adeo.leroymerlin.cdp.pojo.Event;
 
-import java.util.List;
-
 @Transactional
-public interface EventRepository extends Repository<Event, Long> {
+public interface EventRepository extends CrudRepository<Event, Long> {
 
     void delete(Long eventId);
 
